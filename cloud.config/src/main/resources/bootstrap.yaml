@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config
+  profiles:
+    active: composite
+
+  cloud:
+    config:
+      server:
+        bootstrap: true
+        composite:
+          -
+            type: native
+            searchLocations: file:./configuration
