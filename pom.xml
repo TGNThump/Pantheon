@@ -22,8 +22,9 @@
     <modules>
         <module>api</module>
         <module>cloud</module>
-        <module>domain</module>
-        <module>projectors</module>
+        <module>aggregates</module>
+        <module>views</module>
+        <module>model</module>
     </modules>
 
     <properties>
@@ -68,6 +69,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>social.pantheon</groupId>
+                <artifactId>model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.leangen.graphql</groupId>
                 <artifactId>graphql-spqr-spring-boot-starter</artifactId>
                 <version>${graphql-spqr.version}</version>
@@ -80,6 +86,11 @@
             <dependency>
                 <groupId>org.axonframework</groupId>
                 <artifactId>axon-spring-boot-starter</artifactId>
+                <version>${axon.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-modelling</artifactId>
                 <version>${axon.client.version}</version>
             </dependency>
             <dependency>
@@ -120,18 +131,20 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

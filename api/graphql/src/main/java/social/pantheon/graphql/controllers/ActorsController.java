@@ -5,14 +5,16 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
-import social.pantheon.actors.commands.CreateActorCommand;
-import social.pantheon.actors.commands.FollowActorCommand;
-import social.pantheon.actors.commands.UnfollowActorCommand;
-import social.pantheon.actors.model.ActorId;
-import social.pantheon.views.actorgraph.dto.Actor;
-import social.pantheon.views.actorgraph.queries.GetActorByIdQuery;
+import social.pantheon.aggregates.actors.commands.CreateActorCommand;
+import social.pantheon.aggregates.actors.commands.FollowActorCommand;
+import social.pantheon.aggregates.actors.commands.UnfollowActorCommand;
+import social.pantheon.aggregates.actors.dto.ActorDTO;
+import social.pantheon.aggregates.actors.queries.GetActorById;
+import social.pantheon.aggregates.actors.value.ActorId;
+import social.pantheon.graphql.model.Actor;
+import social.pantheon.graphql.services.QueryService;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,12 +23,13 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class ActorsController {
 
-    private final QueryGateway queryGateway;
+    private final QueryService queryService;
     private final CommandGateway commandGateway;
+    private final ObjectProvider<Actor> actorProvider;
 
     @GraphQLQuery
     public CompletableFuture<Actor> getActor(ActorId id){
-        return queryGateway.query(new GetActorByIdQuery(id), Actor.class);
+        return queryService.query(new GetActorById(id), ActorDTO.class, actorProvider);
     }
 
     @GraphQLMutation
