@@ -1,0 +1,16 @@
+version: "3"
+services:
+  vault:
+    image: vault
+    ports:
+      - "8200:8200"
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - "vault:/vault/data"
+      - "./configuration/vault.json:/vault/config.json"
+    command:
+      - "server"
+      - "-config=/vault/config.json"
+volumes:
+  vault:

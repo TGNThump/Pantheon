@@ -15,7 +15,7 @@
     <modules>
         <module>axon</module>
         <module>config</module>
-        <module>console</module>
+        <module>status</module>
         <module>discovery</module>
         <module>gateway</module>
     </modules>

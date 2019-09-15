@@ -4,8 +4,8 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
 import org.springframework.stereotype.Component;
-import social.pantheon.aggregates.actors.dto.ActorDTO;
-import social.pantheon.aggregates.actors.value.ActorId;
+import social.pantheon.model.dto.ActorDTO;
+import social.pantheon.model.value.ActorId;
 
 import static org.neo4j.graphdb.Direction.INCOMING;
 import static org.neo4j.graphdb.Direction.OUTGOING;

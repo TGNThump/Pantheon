@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import social.pantheon.aggregates.actors.dto.RelationshipDTO;
+import social.pantheon.model.dto.RelationshipDTO;
 
 import java.time.Instant;
 

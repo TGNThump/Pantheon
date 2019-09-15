@@ -14,12 +14,13 @@
 
     <modules>
         <module>actorgraph</module>
+        <module>keyholder</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>social.pantheon</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>commons</artifactId>
         </dependency>
         <dependency>
             <groupId>org.axonframework</groupId>

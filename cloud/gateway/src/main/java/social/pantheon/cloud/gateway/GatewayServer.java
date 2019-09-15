@@ -13,7 +13,7 @@ import static java.util.regex.Pattern.quote;
 @SpringBootApplication
 public class GatewayServer {
 
-    private static final String AP_CONTENT_TYPE = quote("application/activity+json") + "|" + quote("application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\"");
+    private static final String AP_CONTENT_TYPE = "^.*(" + quote("application/activity+json") + "|" + quote("application/ld+json") + ").*$";
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayServer.class, args);
@@ -27,7 +27,10 @@ public class GatewayServer {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder){
         return builder.routes()
-                .route(p -> p.method(HttpMethod.POST).and().path("/graphql").uri("lb://graphql"))
+                .route(p -> p.path("/.well-known/webfinger").uri("lb://webfinger"))
+                .route(p -> p.path("/.well-known/nodeinfo").uri("lb://nodeinfo"))
+                .route(p -> p.path("/graphql").uri("lb://graphql"))
+                .route(p -> p.header("content-type", AP_CONTENT_TYPE).or().header("accept", AP_CONTENT_TYPE).uri("lb://activitypub"))
                 .build();
     }
 }

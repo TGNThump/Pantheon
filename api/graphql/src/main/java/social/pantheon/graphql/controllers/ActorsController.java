@@ -7,14 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
-import social.pantheon.aggregates.actors.commands.CreateActorCommand;
-import social.pantheon.aggregates.actors.commands.FollowActorCommand;
-import social.pantheon.aggregates.actors.commands.UnfollowActorCommand;
-import social.pantheon.aggregates.actors.dto.ActorDTO;
-import social.pantheon.aggregates.actors.queries.GetActorById;
-import social.pantheon.aggregates.actors.value.ActorId;
+import reactor.core.publisher.Mono;
+import social.pantheon.model.commands.CreateActorCommand;
+import social.pantheon.model.commands.FollowActorCommand;
+import social.pantheon.model.commands.UnfollowActorCommand;
+import social.pantheon.model.dto.ActorDTO;
+import social.pantheon.model.queries.GetActorById;
+import social.pantheon.model.value.ActorId;
 import social.pantheon.graphql.model.Actor;
-import social.pantheon.graphql.services.QueryService;
+import social.pantheon.services.QueryService;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,8 +29,8 @@ public class ActorsController {
     private final ObjectProvider<Actor> actorProvider;
 
     @GraphQLQuery
-    public CompletableFuture<Actor> getActor(ActorId id){
-        return queryService.query(new GetActorById(id), ActorDTO.class, actorProvider);
+    public Mono<Actor> getActor(ActorId id){
+        return queryService.mono(new GetActorById(id), ActorDTO.class, actorProvider);
     }
 
     @GraphQLMutation

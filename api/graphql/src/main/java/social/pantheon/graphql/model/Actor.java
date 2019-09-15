@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import social.pantheon.aggregates.actors.dto.ActorDTO;
-import social.pantheon.aggregates.actors.dto.RelationshipDTO;
-import social.pantheon.aggregates.actors.queries.GetFollowersForActor;
-import social.pantheon.aggregates.actors.queries.GetFollowingForActor;
-import social.pantheon.graphql.services.QueryService;
+import reactor.core.publisher.Flux;
+import social.pantheon.model.dto.ActorDTO;
+import social.pantheon.model.dto.RelationshipDTO;
+import social.pantheon.model.queries.GetFollowersForActor;
+import social.pantheon.model.queries.GetFollowingForActor;
+import social.pantheon.services.QueryService;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,14 +24,16 @@ public class Actor{
     @Delegate
     private final ActorDTO actorDTO;
 
-    private @Autowired QueryService queryService;
+    @Autowired
+    private QueryService queryService;
+
     private @Autowired ObjectProvider<Relationship> relationshipProvider;
 
-    public CompletableFuture<List<Relationship>> getFollowers(){
-        return queryService.queryList(new GetFollowersForActor(getId()), RelationshipDTO.class, relationshipProvider);
+    public Flux<Relationship> getFollowers(){
+        return queryService.flux(new GetFollowersForActor(getId()), RelationshipDTO.class, relationshipProvider);
     }
 
-    public CompletableFuture<List<Relationship>> getFollowing(){
-        return queryService.queryList(new GetFollowingForActor(getId()), RelationshipDTO.class, relationshipProvider);
+    public Flux<Relationship> getFollowing(){
+        return queryService.flux(new GetFollowingForActor(getId()), RelationshipDTO.class, relationshipProvider);
     }
 }
